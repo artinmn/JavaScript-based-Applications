@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="input"></p>
+
+<p id="output"></p>
+
+<script>
+// initialize the set
+//var sets = {set1: [13,15,12,16,17], set2: [16, 13, 12, 18, 9], set3: [12, 9, 17, 4, 5]};
+var sets = {set1: [1,2,3,4], set2: [3,4,5], set3: [5,6], set4: [2,3], set5: [1,2], set6: [1,4,5,6], set7: [4,6,7], set8: [2,3,4,5,6,7], set9: [5,6,7,8]};
+/*var sets = { set1: [14, 9, 1, 6, 16],
+set2: [4, 15, 16, 14, 11],
+set3: [16, 10, 2, 3, 8],
+set4: [3, 17, 16, 6, 14],
+set5: [19, 18, 14, 6, 20],
+set6: [6, 15, 8, 7, 2],
+set7: [15, 14, 2, 19, 3],
+set8: [8, 2, 14, 10, 5],
+set9: [11, 6, 8, 10, 18],
+set10: [14, 10, 12, 4, 18]};*/
+
+var intersects = {};
+var pairs = {};
+for (var ind = 3; ind <= Object.keys(sets).length; ind++)
+	pairs[ind] = {};
+
+// print out the input
+document.getElementById("input").innerHTML = "<b>Input: </b>";
+var z = 1;
+for (var prop in sets)
+{
+document.getElementById("input").appendChild(document.createElement("br"));
+document.getElementById("input").appendChild(document.createElement("p").appendChild(document.createTextNode("Set "+z+": "+sets["set"+z])));
+z++;
+}
+
+// call the intersect function
+intersection(sets, intersects);
+
+// intersect the set member with its own set members
+function intersection(sets, intersects) {
+
+for (var i = 1; i <= Object.keys(sets).length; i++)
+{
+	for (var j = 1; i+j <= Object.keys(sets).length; j++)
+	{
+		// initialize intersection set
+		intersects["intersection "+i+" & "+(i+j)] = [];
+
+		// find for smaller set
+		if (sets["set"+i].length < sets["set"+j].length)
+		var length = sets["set"+i].length;
+		else
+		var length = sets["set"+j].length;
+
+		// intersect the sets
+		for (var k = 0; k < length; k++)
+		{
+			if ( sets["set"+i].indexOf(sets["set"+(i+j)][k]) != -1)
+			{
+			intersects["intersection "+i+" & "+(i+j)].push(sets["set"+(i+j)][k]);
+			}
+		}
+	}
+}
+// call the intersections function
+intersections(sets,intersects, 1);
+}
+
+// intersect the resulted intersection sets with the original set
+function intersections(sets, intersects, depth) {
+for (var i = 1; i <= Object.keys(sets).length; i++)
+{
+	for (prop in intersects)
+	{
+		// prevent duplicate intersection of sets
+		var numbers = prop.substring(13).split("&");
+     	for (var a = 0; a < numbers.length; a++)
+		numbers[a] = parseFloat(numbers[a]);
+		if (numbers.indexOf(i) !== -1)
+		continue;
+
+		//prevent duplicate unordered sets 
+		//console.log(numbers);
+		numbers.push(i);
+		numbers.sort(function(a,b){return a-b});
+		var flag = false;
+
+		console.log(pairs);
+		//console.log(pairs[numbers.length]);
+
+	if (Object.keys(pairs[numbers.length]).length !== 0)
+	{
+		//console.log(pairs[numbers.length][0]);
+		for (var b = 0; b < Object.keys(pairs[numbers.length]).length; b++)
+		{
+			//alert(b);
+			if (flag == true)
+			break;
+			for (var k = 0; k < numbers.length; k++)
+			{
+				if ( pairs[numbers.length][b][k] !== numbers[k] )
+				{
+				break;
+				//alert (pairs[numbers.length])
+				}
+			    else if ( pairs[numbers.length][b] !== numbers[k] && k == (numbers.length-1))
+			    flag = true;
+			}
+		}
+	}
+		//alert(Object.keys(pairs[numbers.length]).length);
+
+		if (flag == true)
+		continue;
+		else
+		pairs[numbers.length][Object.keys(pairs[numbers.length]).length] = numbers;
+
+		
+		// initialize the intersection set if not duplicate
+		intersects["intersection "+i+" & "+prop.substring(12)] = [];
+
+		// find the smaller set
+		if (intersects[prop].length < sets["set"+i].length)
+		var length = intersects[prop].length;
+		else
+		var length = sets["set"+i].length;
+
+		// intersect the sets
+		for (var k = 0; k < length; k++)
+		{
+			if ( sets["set"+i].indexOf(intersects[prop][k]) != -1)
+			{
+			intersects["intersection "+i+" & "+prop.substring(12)].push(intersects[prop][k]);
+			}
+		}
+	}
+}
+
+// check the depth then call the intersection function recursively
+if (depth != (Object.keys(sets).length-2))
+	{
+	depth++;
+	intersections(sets,intersects,depth);
+	}
+}
+
+// print out the output
+//console.log(intersects);
+document.getElementById("output").innerHTML = "<b>Output: </b>";
+var x = 0;
+for (var prop in intersects)
+{
+x++;
+var value = intersects[prop];
+document.getElementById("output").appendChild(document.createElement("br"));
+document.getElementById("output").appendChild(document.createElement("p").appendChild(document.createTextNode(prop + ": " + value)));
+}
+alert(x);
+</script>
+
+</body>
+</html>

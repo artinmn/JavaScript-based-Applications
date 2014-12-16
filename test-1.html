@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p id="input"></p>
+
+<button onclick="promptPage()">Add Name</button>
+<button onclick="removeEntry()">Remove Last</button>
+
+<p id="output"></p>
+
+<script>
+var names = [];
+var input_names = [];
+
+display();
+
+function promptPage() {
+var name = prompt("enter a name", "");
+name = name.trim();
+if (name != null && name != "") {
+name = name.charAt(0).toUpperCase() + name.slice(1);
+names.push(name);
+input_names.push(name);
+sort(names);
+}
+}
+
+function removeEntry() {
+var item = input_names[input_names.length-1];
+input_names.pop();
+var ind = names.indexOf(item);
+names.splice(ind, 1);
+display();
+}
+
+function sort(names) {
+for (var i = 0; i < names.length; i++)
+{
+	for (var k = 1; k+i < names.length; k++)
+	{
+		if (names[i].charCodeAt(0) > names[k+i].charCodeAt(0) )
+		{
+		var temp = names[i];
+		names[i] = names[k+i];
+		names[k+i] = temp;
+		}
+		else if (names[i].charCodeAt(0) == names[k+i].charCodeAt(0) )
+		{
+			if (names[i].length < names[k+i].length)
+			var length = names[i].length;
+			else
+			var length = names[k+i].length;
+
+			for (var a = 1; a < length; a++)
+			{
+				if (names[i].charCodeAt(a) > names[k+i].charCodeAt(a))
+				{
+				var temp = names[i];
+				names[i] = names[k+i];
+				names[k+i] = temp;
+				break;
+				}
+				else if (names[i].charCodeAt(a) < names[k+i].charCodeAt(a))
+				break;
+			}
+		}
+	}
+  }
+  display();
+}
+
+function display() {
+document.getElementById("input").innerHTML = "<b>Input: </b>"+ input_names;
+document.getElementById("output").innerHTML = "<b>Output: </b>"+ names;
+}
+
+</script>
+
+</body>
+</html>
