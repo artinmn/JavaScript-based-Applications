@@ -96,22 +96,17 @@ for (var i = 1; i <= Object.keys(sets).length; i++)
 		//console.log(pairs[numbers.length][0]);
 		for (var b = 0; b < Object.keys(pairs[numbers.length]).length; b++)
 		{
-			//alert(b);
 			if (flag == true)
 			break;
 			for (var k = 0; k < numbers.length; k++)
 			{
-				if ( pairs[numbers.length][b][k] !== numbers[k] )
-				{
-				break;
-				//alert (pairs[numbers.length])
-				}
+			    if ( pairs[numbers.length][b][k] !== numbers[k] )
+			    break;
 			    else if ( pairs[numbers.length][b] !== numbers[k] && k == (numbers.length-1))
 			    flag = true;
 			}
 		}
 	}
-		//alert(Object.keys(pairs[numbers.length]).length);
 
 		if (flag == true)
 		continue;
@@ -158,7 +153,6 @@ var value = intersects[prop];
 document.getElementById("output").appendChild(document.createElement("br"));
 document.getElementById("output").appendChild(document.createElement("p").appendChild(document.createTextNode(prop + ": " + value)));
 }
-alert(x);
 </script>
 
 </body>
