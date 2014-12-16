@@ -50,17 +50,27 @@ for (var i = 1; i <= Object.keys(sets).length; i++)
 		intersects["intersection "+i+" & "+(i+j)] = [];
 
 		// find for smaller set
-		if (sets["set"+i].length < sets["set"+j].length)
+		if (sets["set"+i].length < sets["set"+(i+j)].length)
 		var length = sets["set"+i].length;
 		else
-		var length = sets["set"+j].length;
+		var length = sets["set"+(i+j)].length;
 
 		// intersect the sets
 		for (var k = 0; k < length; k++)
 		{
-			if ( sets["set"+i].indexOf(sets["set"+(i+j)][k]) != -1)
+			if (sets["set"+i].length > sets["set"+(i+j)].length)
 			{
-			intersects["intersection "+i+" & "+(i+j)].push(sets["set"+(i+j)][k]);
+				if ( sets["set"+i].indexOf(sets["set"+(i+j)][k]) != -1)
+				{
+				intersects["intersection "+i+" & "+(i+j)].push(sets["set"+(i+j)][k]);
+				}
+			}
+			else
+			{
+				if ( sets["set"+(i+j)].indexOf(sets["set"+i][k]) != -1)
+				{
+				intersects["intersection "+i+" & "+(i+j)].push(sets["set"+i][k]);
+				}
 			}
 		}
 	}
