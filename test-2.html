@@ -136,9 +136,19 @@ for (var i = 1; i <= Object.keys(sets).length; i++)
 		// intersect the sets
 		for (var k = 0; k < length; k++)
 		{
-			if ( sets["set"+i].indexOf(intersects[prop][k]) != -1)
+			if (intersects[prop].length < sets["set"+i].length)
 			{
-			intersects["intersection "+i+" & "+prop.substring(12)].push(intersects[prop][k]);
+				if ( sets["set"+i].indexOf(intersects[prop][k]) != -1)
+				{
+				intersects["intersection "+i+" & "+prop.substring(12)].push(intersects[prop][k]);
+				}
+			}
+			else
+			{
+				if ( intersects[prop].indexOf(sets["set"+i][k]) != -1)
+				{
+				intersects["intersection "+i+" & "+prop.substring(12)].push(sets["set"+i][k]);
+				}	
 			}
 		}
 	}
